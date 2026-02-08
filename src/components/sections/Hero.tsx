@@ -64,10 +64,10 @@ export const Hero = ({ theme = 'dark', onResumeClick }: HeroProps) => {
                             </p>
 
                             <div className="flex flex-wrap items-center gap-3 md:gap-4 relative z-50">
-                                <SocialButton href={import.meta.env.VITE_GITHUB_URL || "https://github.com/utkarshkr-creator"} icon={Github} label="GitHub Profile" />
-                                <SocialButton href={import.meta.env.VITE_TWITTER_URL || "https://x.com/utkarsh_kumar"} icon={Twitter} label="Twitter Profile" />
-                                <SocialButton href={import.meta.env.VITE_CODEFORCES_URL || "https://codeforces.com/profile/utkarsh_09"} icon={SiCodeforces} label="Codeforces Profile" />
-                                <SocialButton href={import.meta.env.VITE_LEETCODE_URL || "https://leetcode.com/u0904"} icon={SiLeetcode} label="LeetCode Profile" />
+                                <SocialButton href={import.meta.env.VITE_GITHUB_URL} icon={Github} label="GitHub Profile" />
+                                <SocialButton href={import.meta.env.VITE_TWITTER_URL} icon={Twitter} label="Twitter Profile" />
+                                <SocialButton href={import.meta.env.VITE_CODEFORCES_URL} icon={SiCodeforces} label="Codeforces Profile" />
+                                <SocialButton href={import.meta.env.VITE_LEETCODE_URL} icon={SiLeetcode} label="LeetCode Profile" />
                                 <ResumeButton onClick={onResumeClick} />
                             </div>
                         </motion.div>
@@ -89,7 +89,7 @@ export const Hero = ({ theme = 'dark', onResumeClick }: HeroProps) => {
 
                             {/* User's Hero Image - PREMIUM REFINED AESTHETICS, ELEVATED, STATIC */}
                             <motion.img
-                                src={`/Pic/${import.meta.env.VITE_HERO_IMAGE || 'utkarsh.png'}`}
+                                src={`/Pic/${import.meta.env.VITE_HERO_IMAGE}`}
                                 alt="Utkarsh Kumar - Backend Engineer"
                                 loading="eager"
                                 fetchPriority="high"

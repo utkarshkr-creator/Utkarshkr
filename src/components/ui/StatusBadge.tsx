@@ -23,30 +23,41 @@ export const StatusBadge = ({ isInverted = false, theme = 'dark' }: StatusBadgeP
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    const email = import.meta.env.VITE_EMAIL;
+    const codeforcesUrl = import.meta.env.VITE_CODEFORCES_URL;
+    const twitterUrl = import.meta.env.VITE_TWITTER_URL;
+    const githubUrl = import.meta.env.VITE_GITHUB_URL;
+
+    const getHandle = (url: string) => {
+        if (!url) return '';
+        const parts = url.split('/');
+        return parts[parts.length - 1];
+    };
+
     const contactLinks = [
         {
             name: 'Gmail',
             icon: <Mail size={14} />,
-            detail: 'utkarshkumar@example.com',
-            href: 'mailto:utkarshkumar@example.com',
+            detail: email,
+            href: `mailto:${email}`,
         },
         {
             name: 'Codeforces',
             icon: <SiCodeforces size={14} />,
-            detail: 'utkarshkr',
-            href: 'https://codeforces.com/profile/utkarshkr',
+            detail: getHandle(codeforcesUrl),
+            href: codeforcesUrl,
         },
         {
             name: 'X (Twitter)',
             icon: <Twitter size={14} />,
-            detail: '@utkarsh_kumar',
-            href: 'https://twitter.com/utkarsh_kumar',
+            detail: `@${getHandle(twitterUrl)}`,
+            href: twitterUrl,
         },
         {
             name: 'GitHub',
             icon: <Calendar size={14} />,
-            detail: 'utkarshkr-creator',
-            href: 'https://github.com/utkarshkr-creator',
+            detail: getHandle(githubUrl),
+            href: githubUrl,
         }
     ];
 

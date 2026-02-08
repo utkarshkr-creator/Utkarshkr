@@ -33,9 +33,9 @@ export const Footer = ({ onResumeClick }: FooterProps) => {
                         className="flex flex-wrap gap-4 justify-center"
                     >
                         {[
-                            { href: `mailto:${import.meta.env.VITE_EMAIL || "2022krutkarsh@gmail.com"}`, icon: <Mail className="w-5 h-5" />, label: import.meta.env.VITE_EMAIL || "2022krutkarsh@gmail.com", className: "bg-fg-primary text-bg-primary hover:scale-105" },
-                            { href: import.meta.env.VITE_TWITTER_URL || "https://x.com/utkarsh_kumar", icon: <Coffee className="w-5 h-5" />, label: "Twitter", className: "border border-border-primary hover:bg-bg-secondary" },
-                            { href: import.meta.env.VITE_CODEFORCES_URL || "https://codeforces.com/profile/utkarsh_09", icon: <Calendar className="w-5 h-5" />, label: "Codeforces", className: "bg-[#FFDD00] text-black hover:scale-105" }
+                            { href: `mailto:${import.meta.env.VITE_EMAIL}`, icon: <Mail className="w-5 h-5" />, label: import.meta.env.VITE_EMAIL, className: "bg-fg-primary text-bg-primary hover:scale-105" },
+                            { href: import.meta.env.VITE_TWITTER_URL, icon: <Coffee className="w-5 h-5" />, label: "Twitter", className: "border border-border-primary hover:bg-bg-secondary" },
+                            { href: import.meta.env.VITE_CODEFORCES_URL, icon: <Calendar className="w-5 h-5" />, label: "Codeforces", className: "bg-[#FFDD00] text-black hover:scale-105" }
                         ].map((btn, i) => (
                             <MagneticButton key={i}>
                                 <a
@@ -58,9 +58,9 @@ export const Footer = ({ onResumeClick }: FooterProps) => {
             <Container className="flex justify-between items-end text-sm py-8 font-mono uppercase text-fg-secondary mt-12">
                 <span>© 2025 Utkarsh Kumar</span>
                 <div className="flex gap-[6vw] md:gap-4">
-                    <a href="https://github.com/utkarshkr-creator" target="_blank" rel="noopener noreferrer" className="hover:text-fg-primary transition-colors">GitHub</a>
-                    <a href="https://twitter.com/utkarsh_kumar" target="_blank" rel="noopener noreferrer" className="hover:text-fg-primary transition-colors">Twitter</a>
-                    <a href="https://codeforces.com/profile/utkarshkr" target="_blank" rel="noopener noreferrer" className="hover:text-fg-primary transition-colors">Codeforces</a>
+                    <a href={import.meta.env.VITE_GITHUB_URL} target="_blank" rel="noopener noreferrer" className="hover:text-fg-primary transition-colors">GitHub</a>
+                    <a href={import.meta.env.VITE_TWITTER_URL} target="_blank" rel="noopener noreferrer" className="hover:text-fg-primary transition-colors">Twitter</a>
+                    <a href={import.meta.env.VITE_CODEFORCES_URL} target="_blank" rel="noopener noreferrer" className="hover:text-fg-primary transition-colors">Codeforces</a>
                 </div>
             </Container>
 

@@ -16,7 +16,7 @@ import { useLenis } from './hooks/useLenis';
 import { Experience } from './components/sections/Experience';
 import { Education } from './components/sections/Education';
 import { Achievements } from './components/sections/Achievements';
-import projectsData from './data/projects.json';
+import { projects as projectsData } from './data/projects.ts';
 
 // Lazy load sections and modals
 const Work = lazy(() => import('./components/sections/Work').then(m => ({ default: m.Work })));
@@ -40,7 +40,7 @@ export default function App() {
    // Initialize Lenis smooth scrolling
    useLenis();
 
-   const resumeUrl = import.meta.env.VITE_RESUME_URL || "https://drive.google.com/file/d/YOUR_FILE_ID/view";
+   const resumeUrl = import.meta.env.VITE_RESUME_URL;
 
    useEffect(() => {
       document.documentElement.setAttribute('data-theme', theme);
@@ -103,7 +103,7 @@ export default function App() {
    };
 
    const projects = projectsData;
-   // Projects are now loaded from src/data/projects.json
+   // Projects are now loaded from src/data/projects.ts
 
    return (
       <div className="min-h-screen bg-bg-primary text-fg-primary selection:bg-fg-primary selection:text-bg-primary font-sans relative">
@@ -190,13 +190,13 @@ export default function App() {
                </span>
                <div className="flex items-center gap-4 md:gap-6">
                   <div className="flex lg:hidden items-center gap-4 pr-4 border-r border-current/10">
-                     <a href={`mailto:${import.meta.env.VITE_EMAIL || '2022krutkarsh@gmail.com'}`} className={`transition-opacity hover:opacity-100 opacity-70 ${isNavInverted ? 'text-bg-primary' : 'text-fg-primary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
+                     <a href={`mailto:${import.meta.env.VITE_EMAIL}`} className={`transition-opacity hover:opacity-100 opacity-70 ${isNavInverted ? 'text-bg-primary' : 'text-fg-primary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
                         <Mail className="w-4 h-4 md:w-5 md:h-5" />
                      </a>
-                     <a href={import.meta.env.VITE_CODEFORCES_URL || 'https://codeforces.com/profile/utkarsh_09'} target="_blank" className={`transition-opacity hover:opacity-100 opacity-70 ${isNavInverted ? 'text-bg-primary' : 'text-fg-primary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
+                     <a href={import.meta.env.VITE_CODEFORCES_URL} target="_blank" className={`transition-opacity hover:opacity-100 opacity-70 ${isNavInverted ? 'text-bg-primary' : 'text-fg-primary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
                         <SiCodeforces className="w-4 h-4 md:w-5 md:h-5" />
                      </a>
-                     <a href={import.meta.env.VITE_TWITTER_URL || 'https://x.com/utkarsh_kumar'} target="_blank" className={`transition-opacity hover:opacity-100 opacity-70 ${isNavInverted ? 'text-bg-primary' : 'text-fg-primary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
+                     <a href={import.meta.env.VITE_TWITTER_URL} target="_blank" className={`transition-opacity hover:opacity-100 opacity-70 ${isNavInverted ? 'text-bg-primary' : 'text-fg-primary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
                         <Twitter className="w-4 h-4 md:w-5 md:h-5" />
                      </a>
                   </div>
