@@ -1,0 +1,60 @@
+[
+    {
+        "id": "meta-hacker-cup",
+        "title": "Meta Hacker Cup 2025",
+        "subtitle": "Round 2 Qualifier",
+        "description": "Advanced to Round 2; Ranked 670th globally in Round 2 and 2772nd in Round 1.",
+        "iconType": "meta",
+        "iconColor": "text-blue-500"
+    },
+    {
+        "id": "acm-icpc",
+        "title": "ACM-ICPC 2020",
+        "subtitle": "Regional Qualifier",
+        "description": "Qualified for Regionals, securing Rank 86 in Kanpur.",
+        "iconType": "trophy",
+        "iconColor": "text-purple-500"
+    },
+    {
+        "id": "codeforces",
+        "title": "Codeforces",
+        "subtitle": "Expert (Max: 1606)",
+        "description": "Best Rank: 804 (Round 1062).",
+        "iconType": "codeforces",
+        "iconColor": "text-red-500",
+        "hasLink": true
+    },
+    {
+        "id": "leetcode",
+        "title": "LeetCode",
+        "subtitle": "Knight (Max: 1928)",
+        "description": "Global Rank: Top 1.5%; Best Rank: 976 (Weekly 463).",
+        "iconType": "leetcode",
+        "iconColor": "text-yellow-500",
+        "hasLink": true
+    },
+    {
+        "id": "atcoder",
+        "title": "AtCoder",
+        "subtitle": "Rated (Max: 1169, 5 Kyu)",
+        "description": "Best Rank: 1241 (ABC 442).",
+        "iconType": "code",
+        "iconColor": "text-gray-400"
+    },
+    {
+        "id": "placement-coordinator",
+        "title": "Placement Coordinator",
+        "subtitle": "IIITA'26 | May 2025 - Present",
+        "description": "Spearheaded outreach to 75+ new companies, expanding recruiter pool by 30%.",
+        "iconType": "leadership",
+        "iconColor": "text-green-500"
+    },
+    {
+        "id": "senior-coordinator-moxie",
+        "title": "Senior Coordinator",
+        "subtitle": "MOXIE (MIT) | May 2021 - Aug 2023",
+        "description": "Led organization & execution of technical events and orchestrated successful Tech-Fest.",
+        "iconType": "leadership",
+        "iconColor": "text-orange-500"
+    }
+]

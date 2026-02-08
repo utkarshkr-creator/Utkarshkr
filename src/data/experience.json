@@ -1,0 +1,14 @@
+[
+    {
+        "company": "Scale AI",
+        "role": "Software Engineer (Contract)",
+        "period": "Oct 2023 – Aug 2024",
+        "description": "Authored 300+ production-grade algorithmic solutions in Python and C++ to benchmark Large Language Models. Designed automated validation scripts for RLHF pipelines, reducing model hallucination rates by 15%."
+    },
+    {
+        "company": "Easy Webs",
+        "role": "Frontend Developer Intern",
+        "period": "Nov 2022 – Dec 2022",
+        "description": "Led web application development using React, boosting conversion by 50% and revenue by 20%. Optimized user engagement through data-driven insights."
+    }
+]

@@ -1,0 +1,55 @@
+{
+    "categories": [
+        {
+            "title": "Languages",
+            "skills": [
+                "Node.js",
+                "TypeScript",
+                "Java",
+                "Go",
+                "Python",
+                "C/C++",
+                "JavaScript"
+            ]
+        },
+        {
+            "title": "Databases",
+            "skills": [
+                "PostgreSQL",
+                "MySQL",
+                "MongoDB",
+                "Redis",
+                "TimescaleDB"
+            ]
+        },
+        {
+            "title": "DevOps & Cloud",
+            "skills": [
+                "Docker",
+                "AWS",
+                "Git/GitHub"
+            ]
+        },
+        {
+            "title": "Core Concepts",
+            "skills": [
+                "System Design",
+                "REST API",
+                "WebSocket",
+                "WebRTC",
+                "DSA",
+                "OOP"
+            ]
+        },
+        {
+            "title": "Frontend",
+            "skills": [
+                "React.js",
+                "Next.js",
+                "TailwindCSS",
+                "HTML",
+                "CSS"
+            ]
+        }
+    ]
+}

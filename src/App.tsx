@@ -1,0 +1,258 @@
+import { useState, useEffect, useRef, useTransition, lazy, Suspense } from 'react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Mail, Twitter } from 'lucide-react';
+import { SiCodeforces } from 'react-icons/si';
+import { Hero } from './components/sections/Hero';
+import { Grain } from './components/ui/Grain';
+import { MagneticButton } from './components/ui/MagneticButton';
+import { Preloader } from './components/ui/Preloader';
+import { SideBranding } from './components/ui/SideBranding';
+import { StatusBadge } from './components/ui/StatusBadge';
+import { SunToggle } from './components/ui/SunToggle';
+import { AnimatePresence, motion } from 'framer-motion';
+import { CustomCursor } from './components/ui/CustomCursor';
+import { useLenis } from './hooks/useLenis';
+import { Experience } from './components/sections/Experience';
+import { Education } from './components/sections/Education';
+import { Achievements } from './components/sections/Achievements';
+import projectsData from './data/projects.json';
+
+// Lazy load sections and modals
+const Work = lazy(() => import('./components/sections/Work').then(m => ({ default: m.Work })));
+const Skills = lazy(() => import('./components/sections/Skills').then(m => ({ default: m.Skills })));
+const Footer = lazy(() => import('./components/sections/Footer').then(m => ({ default: m.Footer })));
+const ProjectModal = lazy(() => import('./components/ui/ProjectModal').then(m => ({ default: m.ProjectModal })));
+const ResumeModal = lazy(() => import('./components/ui/ResumeModal').then(m => ({ default: m.ResumeModal })));
+
+export default function App() {
+   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+   const [selectedProject, setSelectedProject] = useState<any>(null);
+   const [isNavInverted, setIsNavInverted] = useState(false);
+   const [isLoading, setIsLoading] = useState(true);
+   const [isTransitioning, setIsTransitioning] = useState(false);
+   const [clickPos, setClickPos] = useState({ x: 0, y: 0 });
+   const [isPending, startTransition] = useTransition();
+   const toggleRef = useRef<HTMLDivElement>(null);
+
+   // Initialize Lenis smooth scrolling
+   useLenis();
+
+   const resumeUrl = import.meta.env.VITE_RESUME_URL || "https://drive.google.com/file/d/YOUR_FILE_ID/view";
+
+   useEffect(() => {
+      document.documentElement.setAttribute('data-theme', theme);
+   }, [theme]);
+
+   useEffect(() => {
+      const handleScroll = () => {
+         const footerSection = document.getElementById('footer'); // Changed from oss-impact to footer since oss-impact is gone
+         if (footerSection) {
+            const rect = footerSection.getBoundingClientRect();
+            const navBuffer = 100;
+            const bottomThreshold = window.innerHeight - navBuffer;
+
+            // Invert nav when overlapping footer (dark section)
+            if (rect.top <= bottomThreshold) {
+               setIsNavInverted(true);
+            } else {
+               setIsNavInverted(false);
+            }
+         }
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+   }, []);
+
+
+   const toggleTheme = (e?: React.MouseEvent) => {
+      if (isTransitioning || isPending) return;
+
+      if (e) {
+         setClickPos({ x: e.clientX, y: e.clientY });
+      } else if (toggleRef.current) {
+         const rect = toggleRef.current.getBoundingClientRect();
+         setClickPos({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+      }
+
+      setIsTransitioning(true);
+
+      // Delay theme change to middle of expansion, use startTransition to avoid blocking
+      setTimeout(() => {
+         startTransition(() => {
+            setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+         });
+      }, 300);
+
+      // Reset transition state
+      setTimeout(() => {
+         setIsTransitioning(false);
+      }, 1200);
+   };
+
+   const openModal = (project: any) => {
+      setSelectedProject(project);
+      setIsModalOpen(true);
+   };
+
+   const openResumeModal = () => {
+      setIsResumeModalOpen(true);
+   };
+
+   const projects = projectsData;
+   // Projects are now loaded from src/data/projects.json
+
+   return (
+      <div className="min-h-screen bg-bg-primary text-fg-primary selection:bg-fg-primary selection:text-bg-primary font-sans relative">
+         <CustomCursor theme={theme} isAppTransitioning={isTransitioning} />
+         <AnimatePresence mode="wait">
+            {isLoading && (
+               <Preloader key="preloader" theme={theme} finishLoading={() => setIsLoading(false)} />
+            )}
+         </AnimatePresence>
+
+         <AnimatePresence mode="wait">
+            {isTransitioning && (
+               <div className="fixed inset-0 pointer-events-none z-[100] overflow-hidden">
+                  <motion.div
+                     initial={{ opacity: 0, scale: 0 }}
+                     animate={{
+                        opacity: [0, 1, 0.5, 0],
+                        scale: [0, 1, 5],
+                     }}
+                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                     className="absolute"
+                     style={{
+                        left: clickPos.x,
+                        top: clickPos.y,
+                        width: '100vw',
+                        height: '100vw',
+                        marginLeft: '-50vw',
+                        marginTop: '-50vw',
+                        borderRadius: '50%',
+                        border: theme === 'dark' ? '2px solid rgba(255, 255, 255, 0.1)' : '2px solid rgba(0, 0, 0, 0.1)',
+                        background: theme === 'dark'
+                           ? 'radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 70%)'
+                           : 'radial-gradient(circle, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 50%, transparent 70%)',
+                        boxShadow: theme === 'dark'
+                           ? '0 0 60px rgba(255, 255, 255, 0.1)'
+                           : '0 0 60px rgba(0, 0, 0, 0.1)',
+                        transform: 'translateZ(0)',
+                        willChange: 'transform, opacity',
+                     }}
+                  />
+                  {[...Array(8)].map((_, i) => (
+                     <motion.div
+                        key={i}
+                        initial={{ opacity: 0, height: 0, rotate: i * 45, width: 2 }}
+                        animate={{
+                           opacity: [0, 0.6, 0],
+                           height: ['0px', `${150 + Math.random() * 400}px`],
+                           width: [2, 3, 1],
+                        }}
+                        transition={{
+                           duration: 1.0,
+                           ease: "easeOut",
+                           delay: Math.random() * 0.1
+                        }}
+                        className="absolute origin-top"
+                        style={{
+                           left: clickPos.x,
+                           top: clickPos.y,
+                           background: theme === 'dark'
+                              ? 'linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent)'
+                              : 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent)',
+                           transform: 'translateZ(0)', // Force GPU
+                        }}
+                     />
+                  ))}
+               </div>
+            )}
+         </AnimatePresence>
+
+         <Grain />
+         <SideBranding />
+
+         <nav className="fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+            <div
+               className={`
+                  backdrop-blur-xl border rounded-full px-5 md:px-6 py-2.5 md:py-3 shadow-lg flex items-center gap-4 md:gap-8 w-full md:w-auto justify-between md:justify-center transition-all duration-300 pointer-events-auto
+                  ${isNavInverted
+                     ? 'bg-fg-primary/95 border-bg-primary text-bg-primary'
+                     : 'bg-bg-primary/95 border-border-primary text-fg-primary'}
+               `}
+            >
+               <span className={`font-mono text-sm md:text-base uppercase tracking-widest font-black shrink-0 ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
+                  Utkarsh
+               </span>
+               <div className="flex items-center gap-4 md:gap-6">
+                  <div className="flex lg:hidden items-center gap-4 pr-4 border-r border-current/10">
+                     <a href={`mailto:${import.meta.env.VITE_EMAIL || '2022krutkarsh@gmail.com'}`} className={`transition-opacity hover:opacity-100 opacity-70 ${isNavInverted ? 'text-bg-primary' : 'text-fg-primary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
+                        <Mail className="w-4 h-4 md:w-5 md:h-5" />
+                     </a>
+                     <a href={import.meta.env.VITE_CODEFORCES_URL || 'https://codeforces.com/profile/utkarsh_09'} target="_blank" className={`transition-opacity hover:opacity-100 opacity-70 ${isNavInverted ? 'text-bg-primary' : 'text-fg-primary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
+                        <SiCodeforces className="w-4 h-4 md:w-5 md:h-5" />
+                     </a>
+                     <a href={import.meta.env.VITE_TWITTER_URL || 'https://x.com/utkarsh_kumar'} target="_blank" className={`transition-opacity hover:opacity-100 opacity-70 ${isNavInverted ? 'text-bg-primary' : 'text-fg-primary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>
+                        <Twitter className="w-4 h-4 md:w-5 md:h-5" />
+                     </a>
+                  </div>
+                  <a href="#education" className={`hidden lg:block text-sm md:text-base font-mono uppercase tracking-widest transition-colors ${isNavInverted ? 'hover:text-bg-secondary' : 'hover:text-fg-secondary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>Education</a>
+                  <a href="#experience" className={`hidden lg:block text-sm md:text-base font-mono uppercase tracking-widest transition-colors ${isNavInverted ? 'hover:text-bg-secondary' : 'hover:text-fg-secondary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>Experience</a>
+                  <a href="#projects" className={`hidden lg:block text-sm md:text-base font-mono uppercase tracking-widest transition-colors ${isNavInverted ? 'hover:text-bg-secondary' : 'hover:text-fg-secondary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>Work</a>
+                  <a href="#skills" className={`hidden lg:block text-sm md:text-base font-mono uppercase tracking-widest transition-colors ${isNavInverted ? 'hover:text-bg-secondary' : 'hover:text-fg-secondary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>Skills</a>
+                  <a href="#contact" className={`hidden lg:block text-sm md:text-base font-mono uppercase tracking-widest transition-colors ${isNavInverted ? 'hover:text-bg-secondary' : 'hover:text-fg-secondary'} ${!isNavInverted && theme === 'dark' ? 'text-outline' : ''}`}>Contact</a>
+                  <div ref={toggleRef}>
+                     <MagneticButton onClick={toggleTheme}>
+                        <SunToggle theme={theme} isInverted={isNavInverted} />
+                     </MagneticButton>
+                  </div>
+               </div>
+            </div>
+         </nav >
+
+         <StatusBadge isInverted={isNavInverted} theme={theme} />
+
+         {/* Stacked Sticky Sections - Each overlaps the previous */}
+
+         {/* Hero Section - Fixed behind everything */}
+         <div className="fixed top-0 left-0 right-0 h-screen z-10">
+            <Hero theme={theme} onResumeClick={openResumeModal} />
+         </div>
+
+         {/* Spacer to push content below the Hero - pointer-events-none to allow interaction with hero */}
+         <div className="h-screen pointer-events-none relative z-0" />
+
+         {/* All scrollable content - overlaps the fixed Hero */}
+         <div className="relative z-20 bg-bg-primary">
+            <Suspense fallback={<div className="h-96" />}>
+               <Education />
+               <Experience />
+               <Achievements />
+               <Work projects={projects} openModal={openModal} />
+               <Skills />
+               <Footer theme={theme} onResumeClick={openResumeModal} />
+            </Suspense>
+         </div>
+
+         <Suspense fallback={null}>
+            <ProjectModal
+               isOpen={isModalOpen}
+               onClose={() => setIsModalOpen(false)}
+               project={selectedProject}
+            />
+
+            <ResumeModal
+               isOpen={isResumeModalOpen}
+               onClose={() => setIsResumeModalOpen(false)}
+               resumeUrl={resumeUrl}
+            />
+         </Suspense>
+         <Analytics />
+         <SpeedInsights />
+      </div >
+   );
+}
