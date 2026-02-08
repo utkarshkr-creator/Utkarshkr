@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Trophy, Award, Medal, Crown, Code, Users } from 'lucide-react';
+import { Trophy, Medal, Crown, Code, Users } from 'lucide-react';
 import { Container } from '../ui/Container';
 import achievementsData from '../../data/achievements.json';
 
